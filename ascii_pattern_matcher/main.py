@@ -1,16 +1,35 @@
-# This is a sample Python script.
+import argparse
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from models import Invader, Radar, RadarMap
+from utils import InputFileHandler
+
+parser = argparse.ArgumentParser(
+    description='Reveals possible locations of invaders on given radar sample')
+parser.add_argument('-a', '--accuracy', type=int, required=False, default=80,
+                    help='Accuracy of invader detection between 0 and 100.')
+# TODO maybe between 0-1? but this is more user friendly
+parser.add_argument('-f', '--file-path', type=str, required=False, default='../README.md',
+                    help='Relative path of the input file.')
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def clean_accuracy(accuracy: int) -> float:
+    return float(accuracy) / 100
 
 
-# Press the green button in the gutter to run the script.
+def clean_file_name(file_path: str) -> str:
+    # TODO handle either way? relative or full path
+    return file_path
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    args = parser.parse_args()
+    accuracy = clean_accuracy(args.accuracy)
+    file_path = clean_file_name(args.file_path)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    handler = InputFileHandler(file_path)
+    radar = Radar(accuracy)
+    for invader_sample in handler.get_known_invader_samples():
+        radar.add_known_invader(Invader(invader_sample))
+    radar.set_radar_map(RadarMap(handler.get_radar_sample()))
+
+    # radar.scan()

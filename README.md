@@ -3,12 +3,11 @@
 Space invaders are upon us!
 We have to track them down.
 
-This Python application takes a file as an argument, 
+This Python application takes a file(this readme file)
+and accuracy as an argument, 
 extract the radar sample and known invader samples, 
 and reveal possible locations of those pesky invaders.
 (Should print to a file? only locations and type?)
-
-P.S. File input will be easier to start
 
 ### Known invaders:
 ~~~~
