@@ -316,3 +316,7 @@ Thumbs.db #thumbnail cache on Windows
 .DS_Store
 /static
 /static/
+
+
+# output map file
+cleaned_map*

@@ -28,6 +28,16 @@ class SampleHandler:
         # TODO separator can be an input?
         return self._numeralize_samples(all_samples)
 
+    def _characterize_number(self, number: int) -> str:
+        return self.NEGATIVE_SIGNAL if number == 0 else self.POSITIVE_SIGNAL
+
+    def characterize_sample(self, sample: np.ndarray) -> str:
+        str_arr_sample = ''
+        for line in sample:
+            str_line = ''.join(map(self._characterize_number, [num for num in line]))
+            str_arr_sample += str_line + '\n'
+        return str_arr_sample
+
 
 class FileHandler:
     file_path = None
@@ -40,6 +50,10 @@ class FileHandler:
         content = file.read()
         file.close()
         return content
+
+    def dump_file_content(self, content: str):
+        with open(self.file_path, 'w') as file:
+            file.write(content)
 
 
 class InputFileHandler(FileHandler):
@@ -61,3 +75,18 @@ class InputFileHandler(FileHandler):
     def get_radar_sample(self) -> np.ndarray:
         # TODO depends on file format but is it ok?
         return self.samples[-1]
+
+
+class OutputFileHandler(FileHandler):
+
+    def __init__(self, file_path: str):
+        super().__init__(file_path)
+        self._prepare_output_file_path()
+
+    def _prepare_output_file_path(self):
+        # TODO input as an argument?
+        path_parts = self.file_path.split('/')
+        file_extention = path_parts[-1].split('.')[-1]
+        output_file_name = f'cleaned_map.{file_extention}'
+        path_parts[-1] = output_file_name
+        self.file_path = '/'.join(path_parts)

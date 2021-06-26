@@ -7,7 +7,7 @@ This Python application takes a file(this readme file)
 and accuracy as an argument, 
 extract the radar sample and known invader samples, 
 and reveal possible locations of those pesky invaders.
-(Should print to a file? only locations and type?)
+Prints the cleaned radar sample in the same directory of the input file. 
 
 ### Known invaders:
 ~~~~

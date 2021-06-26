@@ -1,11 +1,10 @@
 import argparse
 
-from models import Invader, Radar, RadarMap
-from utils import InputFileHandler
+from models import Radar
 
 parser = argparse.ArgumentParser(
     description='Reveals possible locations of invaders on given radar sample')
-parser.add_argument('-a', '--accuracy', type=int, required=False, default=80,
+parser.add_argument('-a', '--accuracy', type=int, required=False, default=85,
                     help='Accuracy of invader detection between 0 and 100.')
 # TODO maybe between 0-1? but this is more user friendly
 parser.add_argument('-f', '--file-path', type=str, required=False, default='../README.md',
@@ -26,10 +25,9 @@ if __name__ == '__main__':
     accuracy = clean_accuracy(args.accuracy)
     file_path = clean_file_name(args.file_path)
 
-    handler = InputFileHandler(file_path)
     radar = Radar(accuracy)
-    for invader_sample in handler.get_known_invader_samples():
-        radar.add_known_invader(Invader(invader_sample))
-    radar.set_radar_map(RadarMap(handler.get_radar_sample()))
+    radar.init_from_file(file_path)
 
-    # radar.scan()
+    radar.scan()
+    radar.dump_to_file(file_path)
+    a = 5
