@@ -15,7 +15,6 @@ class SampleHandler:
         line_arr_sample = sample.strip().split('\n')
         num_arr_sample = []
         for line in line_arr_sample:
-            # TODO code readability or efficiency. one liners?
             num_arr_sample.append(list(map(self._numeralize_char, [ch for ch in line])))
         return np.array(num_arr_sample)
 
