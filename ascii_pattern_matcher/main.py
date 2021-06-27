@@ -28,4 +28,3 @@ if __name__ == '__main__':
 
     radar.scan()
     radar.dump_to_file(file_path)
-    a = 5
